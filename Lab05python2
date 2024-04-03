@@ -1,0 +1,137 @@
+import datetime
+
+
+print ("Michael Mordec, 6/21/22, Lab 5, CSC 242:")
+# menu selector
+select = 0
+myList = [10,5,9,4,8,3,7,2,6,1]
+myList2 = [1,20,33,45,67,77,89,90,99]
+myKey = 3
+
+def LinearSearch(myList,myKey):
+    found = False
+    for i in range(len(myList)) :
+        if(myList[i] == myKey) :
+            found = True
+            print("%d found at %dth position" % (myKey, i+1))
+            break
+    if (found == False) :
+        print("%d is not in list" % myKey)
+    return found;
+
+def BinarySearch(myList,myListLength, myKey):
+    start = 0
+    end = myListLength - 1
+    while(start <= end) :
+        mid = int((start + end) / 2)
+        if (myKey == myList[mid]) :
+            return mid
+        elif(myKey < myList[mid]) :
+            end = mid - 1
+        else :
+            start = mid + 1 
+    return -1
+
+def BubbleSort(myList):
+    n = len(myList)  
+    # Traverse through all array elements
+    for i in range(n - 1) :
+        # range(n) also work but outer loop will repeat one time
+        # more than necessary
+        # Last i elements are already in place
+        for j in range(0, n - i - 1) :
+            # traverse the array from 0 to n-i-1
+            # Swap if the element found is greater
+            # than the next element
+            if myList[j] > myList[j + 1] :
+                myList[j], myList[j + 1] = myList[j + 1], myList[j]
+
+def SelectionSort(myList):
+    for i in range(len(myList)):
+        min_= i
+        for j in range(i + 1, len(myList)):
+            if (myList[min_] > myList[j]):
+                min_ = j
+        # swap performed
+        myList[i], myList[min_] = myList[min_], myList[i]
+
+def InsertionSort(myList):
+    for i in range(1, len(myList)):
+        key = myList[i]
+        j = i-1
+        while j >=0 and key < myList[j] :
+            myList[j+1] = myList[j]
+            j -= 1
+        myList[j+1] = key
+
+
+def DisplayMenu() :
+    print ("enter your choice")
+    print ("1 for a Linear Search")
+    print ("2 for a Binary Search")
+    print ("3 for a Bubble Sort")
+    print ("4 for a Selection Sort")
+    print ("5 for a Insertion Sort")
+
+def SelectRoutine() :
+    global select
+
+    DisplayMenu()
+    select = int(input())
+
+    tStamp1 = datetime.datetime.now()
+    tStamp2 = datetime.datetime.now()
+    
+    if (select == 1) :
+        myKey = int(input("please enter the number to search: "))
+        tStamp1 = datetime.datetime.now()
+        result = LinearSearch(myList,myKey)
+        tStamp2 = datetime.datetime.now()
+        print("Result: ", result)
+    elif (select == 2) :
+        myKey = int(input("please enter the number to search: "))
+        tStamp1 = datetime.datetime.now()
+        position = BinarySearch(myList2, len(myList2), myKey)
+        tStamp2 = datetime.datetime.now()
+        if (position != -1) :
+            print("element number %d is present at position: %d" % (myKey, position))
+        else :
+            print("element number %d is not present in the list" % myKey)
+    elif (select == 3) :
+        myList3 = myList
+        tStamp1 = datetime.datetime.now()
+        BubbleSort(myList3)
+        tStamp2 = datetime.datetime.now()
+
+        print ("the sorted array is:")
+        for i in range(len(myList3)) :
+            print ("%d" %myList3[i]), 
+    elif (select == 4) :
+        myList4 = myList
+        tStamp1 = datetime.datetime.now()
+        SelectionSort(myList4)
+        tStamp2 = datetime.datetime.now()
+
+        print ("the sorted array is:")
+        for i in range(len(myList4)) :
+            print ("%d" %myList4[i]),
+    elif (select == 5) :
+        myList5 = myList
+        tStamp1 = datetime.datetime.now()
+        InsertionSort(myList5)
+        tStamp2 = datetime.datetime.now()
+
+        print ("the sorted array is:")
+        for i in range(len(myList5)) :
+            print ("%d" %myList5[i]),
+    else :
+        print("invalid selection")
+
+    delta = tStamp2 - tStamp1
+    # print (delta)
+    interval = int(delta.total_seconds() * 1000) 
+    # milliseconds
+    print ("total time:", interval)
+
+
+SelectRoutine()
